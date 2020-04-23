@@ -60,18 +60,19 @@ send me a DM to check your pull request
  Wait for my code review.
  */
 
+#include <cmath>
 #include <iostream>
 #include <string>
 struct T
 {
-    T(<#type name#> v, const char* <#variable name#>)   //1
-    //2
-    //3
+    T(float v, const char* name) : value(v), name(name) {}  //1
+    float value;
+    std::string name;
 };
 
-struct <#structName1#>                                //4
+struct T2                                //4
 {
-    <#type name#> compare(<#type name#> a, <#type name#> b) //5
+    T* compare(T* a, T* b) //5
     {
         if( a->value < b->value ) return a;
         if( a->value > b->value ) return b;
@@ -81,53 +82,48 @@ struct <#structName1#>                                //4
 
 struct U
 {
-    float <#name1#> { 0 }, <#name2#> { 0 };
-    <#returnType#> <#memberFunction#>(<#type name#>* <#updatedValue#>)      //12
+    float leadingValue { 0.0f }, trailingValue { 0.0f };
+    float uSquare(float* leadingValueIn)      //12
     {
+        leadingValue = *leadingValueIn;
+        while( std::abs(trailingValue - leadingValue) > 0.001f )
+        {
+            trailingValue += -0.5*(trailingValue - leadingValue);
+        }
+        return trailingValue * trailingValue;
         
     }
 };
 
-struct <#structname2#>
+struct W
 {
-    static <#returntype#> <#staticFunctionA#>(U* that, <#type name#>* <#updatedValue#> )        //10
+    static float wSquare(U* that, float* leadingValue )        //10
     {
-        std::cout << "U's <#name1#> value: " << that-><#name1#> << std::endl;
-        that-><#name1#> = <#updatedValue#>;
-        std::cout << "U's <#name1#> updated value: " << that-><#name1#> << std::endl;
-        while( std::abs(that-><#name2#> - that-><#name1#>) > 0.001f )
+        std::cout << "U's leadingValue value: " << that->leadingValue << std::endl;
+        that->leadingValue = *leadingValue;
+        std::cout << "U's leadingValue updated value: " << that->leadingValue << std::endl;
+        while( std::abs(that->trailingValue - that->leadingValue) > 0.001f )
         {
-            /*
-             write something that makes the distance between that-><#name2#> and that-><#name1#> get smaller
-             */
-            that-><#name2#> += ;
+            that->trailingValue += -0.5*(that->trailingValue - that->leadingValue);
         }
-        std::cout << "U's <#name2#> updated value: " << that-><#name2#> << std::endl;
-        return that-><#name2#> * that-><#name1#>;
+        std::cout << "U's trailingValue updated value: " << that->trailingValue << std::endl;
+        return that->trailingValue * that->trailingValue;
     }
 };
         
 int main()
 {
-    T <#name1#>( , );                                             //6
-    T <#name2#>( , );                                             //6
+    T value1(4 ,"four" );                                             //6
+    T value2(5 ,"five" );                                             //6
     
-    <#structName1#> f;                                            //7
-    auto* smaller = f.compare( , );                              //8
-    std::cout << "the smaller one is << " << smaller->name << std::endl; //9
+    T2 f;                                            //7
+    auto* smaller = f.compare(&value1 ,&value2 );                              //8
+    std::cout << "the smaller one is << " << (value1.value==value2.value? "neither; they are the same." : smaller->name) << std::endl; //9
     
-    U <#name3#>;
+    U u1;
     float updatedValue = 5.f;
-    std::cout << "[static func] <#name3#>'s multiplied values: " << <#structname2#>::<#staticFunctionA#>( , ) << std::endl;                  //11
+    std::cout << "[static func] u1's multiplied values: " << W::wSquare(&u1 ,&updatedValue ) << std::endl;                  //11
     
-    U <#name4#>;
-    std::cout << "[member func] <#name4#>'s multiplied values: " << <#name4#>.<#memberFunction#>( &updatedValue ) << std::endl;
+    U u2;
+    std::cout << "[member func] u2's multiplied values: " << u2.uSquare( &updatedValue ) << std::endl;
 }
-
-        
-        
-        
-        
-        
-        
-        
