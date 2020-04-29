@@ -65,7 +65,7 @@ send me a DM to check your pull request
 #include <string>
 struct T
 {
-    T(float v, const char* name) : value(v), name(name) {}  //1
+    T(float v, const char* name_) : value(v), name(name_) {}  //1
     float value;
     std::string name;
 };
