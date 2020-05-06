@@ -50,14 +50,6 @@ Purpose:  This project will show you the difference between member functions and
  13) remember the rules for using pointers!  What is the one thing we always do before we use a pointer?
  
  After you finish, click the [run] button.  Clear up any errors or warnings as best you can.
- 
- Commit your changes by clicking on the Source Control panel on the left, entering a message, and click [Commit and push].
- 
-Make a pull request after you make your first commit and pin the pull request link to our DM thread.
-
-send me a DM to check your pull request
-
- Wait for my code review.
  */
 
 #include <iostream>
@@ -107,6 +99,20 @@ struct <#structname2#>
     }
 };
         
+/*
+ MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
+
+ Commit your changes by clicking on the Source Control panel on the left, entering a message, and click [Commit and push].
+ 
+ If you didn't already: 
+    Make a pull request after you make your first commit
+    pin the pull request link and this repl.it link to our DM thread in a single message.
+
+ send me a DM to review your pull request when the project is ready for review.
+
+ Wait for my code review.
+ */
+
 int main()
 {
     T <#name1#>( , );                                             //6
