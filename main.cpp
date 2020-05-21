@@ -64,7 +64,7 @@
 #include <string>
 struct T
 {
-    T(float v, const char* name) : value(v), name(name) {}  //1
+    T(float v, const char* name_) : value(v), name(name_) {}  //1
     float value;
     std::string name;
 };
@@ -87,7 +87,7 @@ struct U
         targetValue = *targetValueIn;
         while( std::abs(uValue - targetValue) > 0.001f )
         {
-            uValue += -0.5*(uValue - targetValue);
+            uValue += -0.5f * (uValue - targetValue);
         }
         return uValue * uValue;
     }
@@ -95,14 +95,14 @@ struct U
 
 struct W
 {
-    static float wSquare(U* that, float* targetValue )        //10
+    static float wSquare( U* that, float* targetValue )        //10
     {
         std::cout << "U's targetValue value: " << that->targetValue << std::endl;
         that->targetValue = *targetValue;
         std::cout << "U's targetValue updated value: " << that->targetValue << std::endl;
-        while( std::abs(that->uValue - that->targetValue) > 0.001f )
+        while( std::abs( that->uValue - that->targetValue ) > 0.001f )
         {
-            that->uValue += -0.5*(that->uValue - that->targetValue);
+            that->uValue += -0.5f * ( that->uValue - that->targetValue );
         }
         std::cout << "U's uValue updated value: " << that->uValue << std::endl;
         return that->uValue * that->uValue;
@@ -111,20 +111,20 @@ struct W
         
 int main()
 {
-    T value1(4 ,"four" );                                             //6
-    T value2(5 ,"five" );                                             //6
+    T value1( 4, "four" );                                             //6
+    T value2( 5, "five" );                                             //6
     
     T2 f;                                            //7
-    auto* smaller = f.compare(&value1 ,&value2 );
-    if(smaller!=nullptr)
+    auto* smaller = f.compare( &value1 , &value2 );
+    if( smaller! = nullptr )
     {//8
-    std::cout << "the smaller one is << " << (value1.value==value2.value ? "neither; they are the same." : smaller->name) << std::endl;
+    std::cout << "the smaller one is << " << ( value1.value == value2.value ? "neither; they are the same." : smaller->name ) << std::endl;
     }
     //9
     
     U u1;
     float updatedValue = 5.f;
-    std::cout << "[static func] u1's multiplied values: " << W::wSquare(&u1 ,&updatedValue ) << std::endl;                  //11
+    std::cout << "[static func] u1's multiplied values: " << W::wSquare(&u1, &updatedValue ) << std::endl;                  //11
     
     U u2;
     std::cout << "[member func] u2's multiplied values: " << u2.uSquare( &updatedValue ) << std::endl;
