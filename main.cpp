@@ -116,7 +116,7 @@ int main()
     
     T2 f;                                            //7
     auto* smaller = f.compare( &value1 , &value2 );
-    if( smaller! = nullptr )
+    if( smaller != nullptr )
     {//8
     std::cout << "the smaller one is << " << ( value1.value == value2.value ? "neither; they are the same." : smaller->name ) << std::endl;
     }
