@@ -73,6 +73,7 @@ struct T2                                //4
 {
     T* compare(T* a, T* b) //5
     {
+        if( a || b == nullptr ) return nullptr;
         if( a->value < b->value ) return a;
         if( a->value > b->value ) return b;
         return nullptr;
@@ -84,6 +85,7 @@ struct U
     float targetValue { 0.0f }, uValue { 0.0f };
     float uSquare(float* targetValueIn)      //12
     {
+        if( targetValueIn == nullptr) return 0;
         targetValue = *targetValueIn;
         while( std::abs(uValue - targetValue) > 0.001f )
         {
@@ -118,7 +120,7 @@ int main()
     auto* smaller = f.compare( &value1 , &value2 );
     if( smaller != nullptr )
     {//8
-    std::cout << "the smaller one is << " << ( value1.value == value2.value ? "neither; they are the same." : smaller->name ) << std::endl;
+        std::cout << "the smaller one is << " << smaller << std::endl;
     }
     //9
     
