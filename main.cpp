@@ -99,6 +99,7 @@ struct W
 {
     static float wSquare( U* that, float* targetValue )        //10
     {
+        if(that  == nullptr) return 0;
         std::cout << "U's targetValue value: " << that->targetValue << std::endl;
         that->targetValue = *targetValue;
         std::cout << "U's targetValue updated value: " << that->targetValue << std::endl;
@@ -126,7 +127,7 @@ int main()
     
     U u1;
     float updatedValue = 5.f;
-    std::cout << "[static func] u1's multiplied values: " << W::wSquare(&u1, &updatedValue ) << std::endl;                  //11
+    std::cout << "[static func] u1's multiplied values: " << W::wSquare( &u1, &updatedValue ) << std::endl;                  //11
     
     U u2;
     std::cout << "[member func] u2's multiplied values: " << u2.uSquare( &updatedValue ) << std::endl;
