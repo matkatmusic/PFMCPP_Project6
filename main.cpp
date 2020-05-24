@@ -56,11 +56,9 @@ Purpose:  This project will show you the difference between member functions and
 #include <string>
 struct T
 {
-    T(float v, const char* name_)
-    {
-        value = v;
-        name = name_;
-    }
+    T(float v, const char* name_) :
+    value(v), 
+    name(name_) {}
     float value;
     std::string name;
 };
