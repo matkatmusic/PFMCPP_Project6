@@ -50,14 +50,7 @@
  13) remember the rules for using pointers!  What is the one thing we always do before we use a pointer?
  
  After you finish, click the [run] button.  Clear up any errors or warnings as best you can.
- 
- Commit your changes by clicking on the Source Control panel on the left, entering a message, and click [Commit and push].
- 
- Make a pull request after you make your first commit and pin the pull request link to our DM thread.
- 
- send me a DM to check your pull request
- 
- Wait for my code review.
+
  */
 #include <cmath>
 #include <iostream>
@@ -73,7 +66,9 @@ struct T2                                //4
 {
     T* compare(T* a, T* b) //5
     {
-        if( a || b == nullptr ) return nullptr;
+        if( a || b == nullptr ) 
+            return nullptr;
+        
         if( a->value < b->value ) return a;
         if( a->value > b->value ) return b;
         return nullptr;
@@ -85,7 +80,9 @@ struct U
     float targetValue { 0.0f }, uValue { 0.0f };
     float uSquare(float* targetValueIn)      //12
     {
-        if( targetValueIn == nullptr) return 0;
+        if( targetValueIn == nullptr) 
+            return 0;
+      
         targetValue = *targetValueIn;
         while( std::abs(uValue - targetValue) > 0.001f )
         {
@@ -99,8 +96,11 @@ struct W
 {
     static float wSquare( U* that, float* targetValue )        //10
     {
-        if(that  == nullptr) return 0;
-        if(targetValue == nullptr) targetValue = &(that->targetValue);
+        if(that  == nullptr) 
+            return 0;
+        if(targetValue == nullptr) 
+            return 0;
+        
         std::cout << "U's targetValue value: " << that->targetValue << std::endl;
         that->targetValue = *targetValue;
         std::cout << "U's targetValue updated value: " << that->targetValue << std::endl;
@@ -113,6 +113,20 @@ struct W
     }
 };
         
+/*
+ MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
+
+ Commit your changes by clicking on the Source Control panel on the left, entering a message, and click [Commit and push].
+ 
+ If you didn't already: 
+    Make a pull request after you make your first commit
+    pin the pull request link and this repl.it link to our DM thread in a single message.
+
+ send me a DM to review your pull request when the project is ready for review.
+
+ Wait for my code review.
+ */
+
 int main()
 {
     T value1( 4, "four" );                                             //6
