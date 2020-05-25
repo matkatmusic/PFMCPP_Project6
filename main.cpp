@@ -100,6 +100,7 @@ struct W
     static float wSquare( U* that, float* targetValue )        //10
     {
         if(that  == nullptr) return 0;
+        if(targetValue == nullptr) targetValue = &(that->targetValue);
         std::cout << "U's targetValue value: " << that->targetValue << std::endl;
         that->targetValue = *targetValue;
         std::cout << "U's targetValue updated value: " << that->targetValue << std::endl;
