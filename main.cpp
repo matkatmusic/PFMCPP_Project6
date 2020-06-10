@@ -75,25 +75,12 @@ struct X                                //4
 {
     T* compare(T* a, T* b) //5
     {
-        if(a == nullptr || b == nullptr)
+        if(a != nullptr && b != nullptr)
         {
-            return nullptr;
+            if( a->value < b->value ) return a;
+            if( a->value > b->value ) return b;
         }
-        else if( a->value < b->value ) 
-        {
-            return a;
-        }
-        else if( a->value > b->value ) 
-        {
-            return b;
-        }
-        else if( a->value == b->value ) 
-        {
-            return nullptr;
-        }
-        else {
-            return nullptr;
-        }
+        return nullptr;
     }
 };
 
@@ -157,7 +144,9 @@ int main()
     if (smaller != nullptr)
     {
         std::cout << "the smaller one is << " << smaller->name << std::endl; //9
-    } else {
+    } 
+    else 
+    {
         std::cout << "Either t1 or t2 is not initialized or t1 equals t2" << std::endl;
     }
     
