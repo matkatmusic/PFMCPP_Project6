@@ -145,7 +145,7 @@ int main()
     {
         std::cout << "the smaller one is << " << smaller->name << std::endl; //9
     } else {
-        std::cout << "Either t1 or t2 is not initialized." << std::endl;
+        std::cout << "Either t1 or t2 is not initialized or t1 equals t2" << std::endl;
     }
     
     U u1;
