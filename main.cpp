@@ -68,19 +68,18 @@ struct T
     int value;
     std::string name;
 
-    T(int v, const char* s)   //1
-    {
-        value = v; //2
-        name = s; //3
-    }
+    T(int v, const char* s) : value(v), name(s) {}  //1
 };
 
 struct X                                //4
 {
     T* compare(T* a, T* b) //5
     {
-        if( a->value < b->value ) return a;
-        if( a->value > b->value ) return b;
+        if(a != nullptr && b != nullptr)
+        {
+            if( a->value < b->value ) return a;
+            if( a->value > b->value ) return b;
+        }
         return nullptr;
     }
 };
@@ -109,29 +108,40 @@ struct Z
 {
     static float multiply(U* that, float* updatedValue )        //10
     {
-        std::cout << "U's x value: " << that->x << std::endl;
-        that->x = *updatedValue;
-        std::cout << "U's x updated value: " << that->x << std::endl;
-        while( std::abs(that->y - that->x) > 0.001f )
+        if(updatedValue != nullptr)
         {
-            /*
-             write something that makes the distance between that->x and that->y get smaller
-             */
-            that->y += 0.1f;
+            std::cout << "U's x value: " << that->x << std::endl;
+            that->x = *updatedValue;
+            std::cout << "U's x updated value: " << that->x << std::endl;
+            while( std::abs(that->y - that->x) > 0.001f )
+            {
+                /*
+                write something that makes the distance between that->x and that->y get smaller
+                */
+                that->y += 0.1f;
+            }
+            std::cout << "U's y updated value: " << that->y << std::endl;
+            
+            return that->y * that->x;
         }
-        std::cout << "U's y updated value: " << that->y << std::endl;
-        return that->y * that->x;
+        return 0;
     }
 };
         
 int main()
 {
-    T t1(1 , "David");                                             //6
-    T t2(2 , "Alexander");                                             //6
+    T t1(1 , "David"); //6
+    T t2(2 , "Alexander"); //6
     
-    X f;                                            //7
-    auto* smaller = f.compare(&t1 , &t2);                              //8
-    std::cout << "the smaller one is << " << smaller->name << std::endl; //9
+    X f; //7
+    auto* smaller = f.compare(&t1 , &t2); //8
+
+    if (smaller != nullptr)
+    {
+        std::cout << "the smaller one is << " << smaller->name << std::endl; //9
+    } else {
+        std::cout << "Either t1 or t2 is not initialized." << std::endl;
+    }
     
     U u1;
     float updatedValue = 5.f;
