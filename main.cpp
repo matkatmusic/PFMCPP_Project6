@@ -89,18 +89,23 @@ struct U
     float x { 0 }, y { 0 };
     float multiply(float* updatedValue)      //12
     {
-        std::cout << "U's x value: " << this->x << std::endl;
-        this->x = *updatedValue;
-        std::cout << "U's x updated value: " << this->x << std::endl;
-        while( std::abs(this->y - this->x) > 0.001f )
+        if(updatedValue != nullptr)
         {
-            /*
-             write something that makes the distance between that->x and that->y get smaller
-             */
-            this->y += 0.1f;
+            std::cout << "U's x value: " << this->x << std::endl;
+            this->x = *updatedValue;
+            std::cout << "U's x updated value: " << this->x << std::endl;
+            while( std::abs(this->y - this->x) > 0.001f )
+            {
+                /*
+                write something that makes the distance between that->x and that->y get smaller
+                */
+                this->y += 0.1f;
+            }
+            std::cout << "U's y updated value: " << this->y << std::endl;
+            return this->y * this->x;
         }
-        std::cout << "U's y updated value: " << this->y << std::endl;
-        return this->y * this->x;
+
+        return 0;
     }
 };
 
