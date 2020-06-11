@@ -139,7 +139,7 @@ int main()
     T t2(2 , "Alexander"); //6
     
     X f; //7
-    auto* smaller = f.compare(&t1 , &t2); //8
+    auto* smaller = f.compare(nullptr , nullptr); //8
 
     if (smaller != nullptr)
     {
@@ -147,8 +147,10 @@ int main()
     } 
     else 
     {
-        std::cout << "t1 equals t2" << std::endl;
+        std::cout << "t1 equals t2 OR EITHER OF THE 2 ARGUMENTS ARE NULL" << std::endl;
     }
+
+    return 0;
     
     U u1;
     float updatedValue = 5.f;
