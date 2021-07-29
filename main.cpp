@@ -54,80 +54,88 @@ Purpose:  This project will show you the difference between member functions and
 
 #include <iostream>
 #include <string>
+
+//comments are me trying to make sense of what is going on in the example
 struct T
 {
-    T(<#type name#> v, const char* <#variable name#>)   //1
-    //2
-    //3
+    T(int v , const char* n) : value(v), name(n) {} //1  Constructor initialises member variables to value of parameters. question, why const char not std::string?
+    int value; //2
+    std::string name; //3
 };
 
-struct <#structName1#>                                //4
+struct compareFunctionStruct  //4
 {
-    <#type name#> compare(<#type name#> a, <#type name#> b) //5
+    T* compare(T* a, T* b) //5    function that takes pointers (to two instances of T) as parameters. T* is the RETURN type of the function. 
     {
-        if( a->value < b->value ) return a;
-        if( a->value > b->value ) return b;
-        return nullptr;
+        if (a != nullptr && b != nullptr) //check pointers are not null before using
+        {
+            if( a->value < b->value ) return a; // function compares values of member variables of a and b
+            if( a->value > b->value ) return b;
+        }
+        return nullptr; // if  neither condition is met, function returns nullptr (does this protect against the function allocating junk to memory?)
     }
 };
+
 
 struct U
 {
-    float <#name1#> { 0 }, <#name2#> { 0 };
-    <#returnType#> <#memberFunction#>(<#type name#>* <#updatedValue#>)      //12
+    float  uValue1 { 0 }, uValue2 { 0 };
+    float shrinkTheGap(float* updatedValue)      //12
     {
-        
-    }
-};
-
-struct <#structname2#>
-{
-    static <#returntype#> <#staticFunctionA#>(U* that, <#type name#>* <#updatedValue#> )        //10
-    {
-        std::cout << "U's <#name1#> value: " << that-><#name1#> << std::endl;
-        that-><#name1#> = <#updatedValue#>;
-        std::cout << "U's <#name1#> updated value: " << that-><#name1#> << std::endl;
-        while( std::abs(that-><#name2#> - that-><#name1#>) > 0.001f )
+        if (updatedValue != nullptr)
         {
-            /*
-             write something that makes the distance between that-><#name2#> and that-><#name1#> get smaller
-             */
-            that-><#name2#> += ;
+            std::cout << "U's uValue1 value: " << uValue1 << std::endl;
+            uValue1 = *updatedValue;
+            std::cout << "U's uValue1 updated value: " << uValue1 << std::endl;
+            while( std::abs(uValue2 - uValue1) > 0.001f )
+            {
+                uValue2 += 0.1f;
+            }
+            std::cout << "U's uValue2 updated value: " << uValue2 << std::endl;
+            return uValue2 * uValue1;
         }
-        std::cout << "U's <#name2#> updated value: " << that-><#name2#> << std::endl;
-        return that-><#name2#> * that-><#name1#>;
+        return 0.f;
     }
 };
-        
-/*
- MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
 
- Commit your changes by clicking on the Source Control panel on the left, entering a message, and click [Commit and push].
- 
- If you didn't already: 
-    Make a pull request after you make your first commit
-    pin the pull request link and this repl.it link to our DM thread in a single message.
-
- send me a DM to review your pull request when the project is ready for review.
-
- Wait for my code review.
- */
+struct uFunction
+{
+    static float shrinkTheGap(U* that, float* updatedValue )        //10
+    {
+        if (that != nullptr && updatedValue != nullptr)
+        {
+            std::cout << "U's uValue1 value: " << that->uValue1 << std::endl;
+            that->uValue1 = *updatedValue;
+            std::cout << "U's uValue1 updated value: " << that->uValue1 << std::endl;
+            while( std::abs(that->uValue2 - that->uValue1) > 0.001f )
+            {
+                that->uValue2 += 0.1f;
+            }
+            std::cout << "U's uValue2 updated value: " << that->uValue2 << std::endl;
+            return that->uValue2 * that->uValue1; //this is the return value printed out in main.
+        }
+        return 0.f;
+    }
+};
 
 int main()
 {
-    T <#name1#>( , );                                             //6
-    T <#name2#>( , );                                             //6
-    
-    <#structName1#> f;                                            //7
-    auto* smaller = f.compare( , );                              //8
-    std::cout << "the smaller one is << " << smaller->name << std::endl; //9
-    
-    U <#name3#>;
+    T tInstance1( 10, "Ta" ); //6
+    T tInstance2( 2, "Tb" );  //6
+
+    compareFunctionStruct f;  //7
+    auto* smaller = f.compare( &tInstance1, &tInstance2 );       //8
+    if (smaller != nullptr) //if statement only operates if return value of f.compare is valid
+    {
+        std::cout << "the smaller one is << "  << smaller->name << std::endl; //9
+    }
+
+    U uInstance1;
     float updatedValue = 5.f;
-    std::cout << "[static func] <#name3#>'s multiplied values: " << <#structname2#>::<#staticFunctionA#>( , ) << std::endl;                  //11
-    
-    U <#name4#>;
-    std::cout << "[member func] <#name4#>'s multiplied values: " << <#name4#>.<#memberFunction#>( &updatedValue ) << std::endl;
+    std::cout << "[static func] uInstance1's multiplied values: " << uFunction::shrinkTheGap( &uInstance1, &updatedValue ) << std::endl;  //11
+
+    U uInstance2;
+    std::cout << "[member func] uInstance2's multiplied values: " << uInstance2.shrinkTheGap( &updatedValue ) << std::endl;
 }
 
         
