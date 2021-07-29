@@ -64,11 +64,10 @@ struct T
 };
 
 struct compareFunctionStruct  //4
-
 {
-    T* compare(T* a, T* b) //5    function that takes pointers (to two instances of T) as parameters. T* is the type of the function. (like int* ptr declares an pointer of type int).
+    T* compare(T* a, T* b) //5    function that takes pointers (to two instances of T) as parameters. T* is the RETURN type of the function. 
     {
-         if (a != nullptr && b != nullptr) //check pointers are not null before using
+        if (a != nullptr && b != nullptr) //check pointers are not null before using
         {
             if( a->value < b->value ) return a; // function compares values of member variables of a and b
             if( a->value > b->value ) return b;
@@ -83,7 +82,7 @@ struct U
     float  uValue1 { 0 }, uValue2 { 0 };
     float shrinkTheGap(float* updatedValue)      //12
     {
-         if (updatedValue != nullptr)
+        if (updatedValue != nullptr)
         {
             std::cout << "U's uValue1 value: " << uValue1 << std::endl;
             uValue1 = *updatedValue;
