@@ -20,7 +20,6 @@ struct CompareFunctionStruct
     }
 };
 
-
 struct U
 {
     float  uValue1 { 0 }, uValue2 { 0 };
