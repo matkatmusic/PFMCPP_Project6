@@ -29,11 +29,9 @@ struct CompareFunctionStruct
 {
     T* compare(T &a, T &b) //5    
     {
-        {
-            if (a.value < b.value) return &a; 
-            if (a.value > b.value) return &b;
-        }
-       return nullptr; 
+        if (a.value < b.value) return &a; 
+        if (a.value > b.value) return &b;
+        return nullptr; 
     }
 };
 
@@ -42,17 +40,15 @@ struct U
     float  uValue1 { 0 }, uValue2 { 0 };
     float shrinkTheGap(float& updatedValue)      //12
     {
+        std::cout << "U's uValue1 value: " << uValue1 << std::endl;
+        uValue1 = updatedValue;
+        std::cout << "U's uValue1 updated value: " << uValue1 << std::endl;
+        while (std::abs(uValue2 - uValue1) > 0.001f )
         {
-            std::cout << "U's uValue1 value: " << uValue1 << std::endl;
-            uValue1 = updatedValue;
-            std::cout << "U's uValue1 updated value: " << uValue1 << std::endl;
-            while (std::abs(uValue2 - uValue1) > 0.001f )
-            {
-                uValue2 += 0.1f;
-            }
-            std::cout << "U's uValue2 updated value: " << uValue2 << std::endl;
-            return uValue2 * uValue1;
+            uValue2 += 0.1f;
         }
+        std::cout << "U's uValue2 updated value: " << uValue2 << std::endl;
+        return uValue2 * uValue1;
     }
 };
 
@@ -60,17 +56,15 @@ struct UFunction
 {
     static float shrinkTheGap(U& that, float& updatedValue )        //10
     {
+        std::cout << "U's uValue1 value: " << that.uValue1 << std::endl;
+        that.uValue1 = updatedValue;
+        std::cout << "U's uValue1 updated value: " << that.uValue1 << std::endl;
+        while (std::abs(that.uValue2 - that.uValue1) > 0.001f )
         {
-            std::cout << "U's uValue1 value: " << that.uValue1 << std::endl;
-            that.uValue1 = updatedValue;
-            std::cout << "U's uValue1 updated value: " << that.uValue1 << std::endl;
-            while (std::abs(that.uValue2 - that.uValue1) > 0.001f )
-            {
-                that.uValue2 += 0.1f;
-            }
-            std::cout << "U's uValue2 updated value: " << that.uValue2 << std::endl;
-            return that.uValue2 * that.uValue1; 
+            that.uValue2 += 0.1f;
         }
+        std::cout << "U's uValue2 updated value: " << that.uValue2 << std::endl;
+        return that.uValue2 * that.uValue1; 
     }
 };
 
