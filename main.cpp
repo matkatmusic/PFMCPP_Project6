@@ -56,12 +56,12 @@ Purpose:  This project will show you the difference between member functions and
 #include <string>
 struct T
 {
-    T(int v, const char* p);   //1
+    T(int v, const char *p);   //1
     int value;//2
     std::string name;//3
 };
 
-T::T(int v, const char* p):value(v){}
+T::T(int v, const char* p) : value(v), name(p){}
 
 
 struct Compare                                //4
@@ -78,40 +78,47 @@ struct U
 {
     float value1 { 0 }, value2 { 0 };
     float uPrintUpdated(float* updatedValue)      //12
-    {
-        std::cout << "U's value1 value: " << value1 << std::endl;
-        value1 = *updatedValue;
-        std::cout << "U's value1 updated value: " << value1 << std::endl;
-        while( std::abs(value2 - value1) > 0.001f )
+    {   
+        if(updatedValue != nullptr)
         {
+            std::cout << "U's value1 value: " << value1 << std::endl;
+            value1 = *updatedValue;
+            std::cout << "U's value1 updated value: " << value1 << std::endl;
+            while( std::abs(value2 - value1) > 0.001f )
+            {
             /*
              write something that makes the distance between that-><#name2#> and that-><#name1#> get smaller
              */
 
             value2 += 0.5f;
-        }
+            }
         std::cout << "U's value2 updated value: " << value2 << std::endl;
         return value2 * value1;
+        }
+        return 0.f;
     }
 };
 
 struct PrintUpdated
 {
     static float printUpdate(U* that,float* updatedValue )        //10
-    {
-        std::cout << "U's value1 value: " << that->value1 << std::endl;
-        that->value1 = *updatedValue;
-        std::cout << "U's value1 updated value: " << that->value1 << std::endl;
-        while( std::abs(that->value2 - that->value1) > 0.001f )
+    {   
+        if(updatedValue != nullptr)
         {
+            std::cout << "U's value1 value: " << that->value1 << std::endl;
+            that->value1 = *updatedValue;
+            std::cout << "U's value1 updated value: " << that->value1 << std::endl;
+            while( std::abs(that->value2 - that->value1) > 0.001f )
+            {
             /*
              write something that makes the distance between that-><#name2#> and that-><#name1#> get smaller
              */
-
             that->value2 += 0.5f;
+            }
+            std::cout << "U's value2 updated value: " << that->value2 << std::endl;
+            return that->value2 * that->value1;
         }
-        std::cout << "U's value2 updated value: " << that->value2 << std::endl;
-        return that->value2 * that->value1;
+        return 0.f;
     }
 };
         
@@ -136,8 +143,12 @@ int main()
     
     Compare f;                                            //7
     auto* smaller = f.compare(&c, &d);                              //8
-    std::cout << "the smaller one is ";
-    (smaller != nullptr) ? (std::cout << smaller->name) : (std::cout << "neither, invalid pointer or same" <<std::endl);
+    if(smaller != nullptr)
+        std::cout << "the smaller one is " << smaller->name << std::endl;
+    else if(c.value == d.value) 
+        std::cout << "same" <<std::endl;
+    else
+        std::cout << "nullptr" << std::endl;
     
     U u1;
     float updatedValue = 5.f;
