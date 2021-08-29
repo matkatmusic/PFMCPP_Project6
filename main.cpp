@@ -143,6 +143,7 @@ int main()
     T d(2, "d");                                             //6
     
     Compare f;                                            //7
+    f.compare(nullptr, &c); //This causes a crash because of your incorrect nullptr checks in `Compare::compare`
     auto* smaller = f.compare(&c, &d);                              //8
     if(smaller != nullptr)
         std::cout << "the smaller one is " << smaller->name << std::endl;
