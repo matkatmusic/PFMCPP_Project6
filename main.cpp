@@ -69,8 +69,12 @@ struct Compare                                //4
     T* compare(T* a, T* b) //5
     {
         if(a != nullptr && b != nullptr)
-            if( a->value < b->value ) return a;
-            if( a->value > b->value ) return b;
+        {
+            if( a->value < b->value )
+            return a;
+            else if( a->value > b->value )
+            return b;
+        }
         return nullptr;
     }
 };
@@ -91,10 +95,10 @@ struct U
              write something that makes the distance between that-><#name2#> and that-><#name1#> get smaller
              */
 
-            value2 += 0.5f;
+                value2 += 0.5f;
             }
             std::cout << "U's value2 updated value: " << value2 << std::endl;
-        return value2 * value1;
+            return value2 * value1;
         }
         return 0.f;
     }
@@ -143,7 +147,6 @@ int main()
     T d(2, "d");                                             //6
     
     Compare f;                                            //7
-    f.compare(nullptr, &c); //This causes a crash because of your incorrect nullptr checks in `Compare::compare`
     auto* smaller = f.compare(&c, &d);                              //8
     if(smaller != nullptr)
         std::cout << "the smaller one is " << smaller->name << std::endl;
