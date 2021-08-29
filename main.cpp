@@ -68,8 +68,9 @@ struct Compare                                //4
 {
     T* compare(T* a, T* b) //5
     {
-        if( a->value < b->value ) return a;
-        if( a->value > b->value ) return b;
+        if(a != nullptr && b != nullptr)
+            if( a->value < b->value ) return a;
+            if( a->value > b->value ) return b;
         return nullptr;
     }
 };
@@ -92,7 +93,7 @@ struct U
 
             value2 += 0.5f;
             }
-        std::cout << "U's value2 updated value: " << value2 << std::endl;
+            std::cout << "U's value2 updated value: " << value2 << std::endl;
         return value2 * value1;
         }
         return 0.f;
@@ -113,7 +114,7 @@ struct PrintUpdated
             /*
              write something that makes the distance between that-><#name2#> and that-><#name1#> get smaller
              */
-            that->value2 += 0.5f;
+                that->value2 += 0.5f;
             }
             std::cout << "U's value2 updated value: " << that->value2 << std::endl;
             return that->value2 * that->value1;
