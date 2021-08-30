@@ -70,10 +70,8 @@ struct Compare                                //4
     {
         if(a != nullptr && b != nullptr)
         {
-            if( a->value < b->value )
-            return a;
-            else if( a->value > b->value )
-            return b;
+            if( a->value < b->value ) return a;
+            if( a->value > b->value ) return b;
         }
         return nullptr;
     }
@@ -146,7 +144,7 @@ int main()
     T c(1, "c");                                             //6
     T d(2, "d");                                             //6
     
-    Compare f;                                            //7
+    Compare f;                                         //7
     auto* smaller = f.compare(&c, &d);                              //8
     if(smaller != nullptr)
         std::cout << "the smaller one is " << smaller->name << std::endl;
