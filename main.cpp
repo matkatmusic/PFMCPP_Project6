@@ -68,7 +68,7 @@ struct C                                //4
         if(a != nullptr && b != nullptr)
         {
             if( a->value < b->value ) return a;
-              if( a->value > b->value ) return b;
+            if( a->value > b->value ) return b;
 
         }
         return nullptr;
@@ -142,7 +142,7 @@ int main()
     auto* smaller = f.compare(&a , &b);                              //8
     if(smaller == nullptr)
     {
-        std::cout << "Variables not initialized";
+        std::cout << "At least one variables is uninitialized or values are equal";
     }
     else
     {
