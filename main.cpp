@@ -32,14 +32,10 @@ struct T
 
 struct C                                //4
 {
-    T* compare(T* a, T* b) //5
+    T* compare(T& a, T& b) //5
     {
-        if(a != nullptr && b != nullptr)
-        {
-            if( a->value < b->value ) return a;
-            if( a->value > b->value ) return b;
-
-        }
+        if( a.value < b.value ) return &a;
+        if( a.value > b.value ) return &b;
         return nullptr;
     }
 };
@@ -48,43 +44,33 @@ struct C                                //4
 struct U
 {
     float a { 0 }, b { 0 };
-    float updateMultiply(float* updater)      //12
+    float updateMultiply(const float& updater)      //12
     {
-        if(updater != nullptr)
+        this->a = updater;
+        std::cout << "U's a updated value: " << this->a << std::endl;
+        while( std::abs(this->b - this->a) > 0.001f )
         {
-            this->a = *updater;
-            std::cout << "U's a updated value: " << this->a << std::endl;
-            while( std::abs(this->b - this->a) > 0.001f )
-            {
-                this->b += 1.0f;
-            }
-            std::cout << "U's b updated value: " << this->b << std::endl;
-            return this->b * this->a;
+            this->b += 1.0f;
         }
-        std::cout << "nullptr, please fix";
-        return -1;
+        std::cout << "U's b updated value: " << this->b << std::endl;
+        return this->b * this->a;
     }
 };
 
 
 struct ModifyPointers
 {
-    static float updateMultiply(U* that, float* updater )        //10
+    static float updateMultiply(U& that, const float& updater)        //10
     {
-        if(that != nullptr && updater != nullptr)
+        std::cout << "U's a value: " << that.a << std::endl;
+        that.a = updater;
+        std::cout << "U's a updated value: " << that.a << std::endl;
+        while( std::abs(that.b - that.a) > 0.001f )
         {
-            std::cout << "U's a value: " << that->a << std::endl;
-            that->a = *updater;
-            std::cout << "U's a updated value: " << that->a << std::endl;
-            while( std::abs(that->b - that->a) > 0.001f )
-            {
-                that->b += 1.0f;
-            }
-            std::cout << "U's b updated value: " << that->b << std::endl;
-            return that->b * that->a;
+            that.b += 1.0f;
         }
-        std::cout << "nullptr, please fix";
-        return -1;
+        std::cout << "U's b updated value: " << that.b << std::endl;
+        return that.b * that.a;
     }
 };
         
@@ -108,10 +94,10 @@ int main()
     T b(2 , "b");                                             //6
     
     C f;                                            //7
-    auto* smaller = f.compare(&a , &b);                              //8
+    auto* smaller = f.compare(a , b);                              //8
     if(smaller == nullptr)
     {
-        std::cout << "At least one variables is uninitialized or values are equal";
+        std::cout << "Values are equal";
     }
     else
     {
@@ -121,8 +107,8 @@ int main()
     
     U u;
     float updatedValue = 5.f;
-    std::cout << "[static func] u's multiplied values: " << ModifyPointers::updateMultiply(&u , &updatedValue) << std::endl;                  //11
+    std::cout << "[static func] u's multiplied values: " << ModifyPointers::updateMultiply(u , updatedValue) << std::endl;                  //11
     
     U u2;
-    std::cout << "[member func] U2s multiplied values: " << u2.updateMultiply( &updatedValue ) << std::endl;
+    std::cout << "[member func] U2s multiplied values: " << u2.updateMultiply( updatedValue ) << std::endl;
 }
