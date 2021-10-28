@@ -56,46 +56,66 @@ Purpose:  This project will show you the difference between member functions and
 #include <string>
 struct T
 {
-    T(<#type name#> v, const char* <#variable name#>)   //1
-    //2
-    //3
+    T(int v, const char* c) : value(v), name(c) {}  //1
+    int value; //2
+    std::string name; //3
 };
 
-struct <#structName1#>                                //4
+struct C                                //4
 {
-    <#type name#> compare(<#type name#> a, <#type name#> b) //5
+    T* compare(T* a, T* b) //5
     {
-        if( a->value < b->value ) return a;
-        if( a->value > b->value ) return b;
+        if(a != nullptr && b != nullptr)
+        {
+            if( a->value < b->value ) return a;
+              if( a->value > b->value ) return b;
+
+        }
         return nullptr;
     }
 };
 
+
 struct U
 {
-    float <#name1#> { 0 }, <#name2#> { 0 };
-    <#returnType#> <#memberFunction#>(<#type name#>* <#updatedValue#>)      //12
+    float a { 0 }, b { 0 };
+    float updateMultiply(float* updater)      //12
     {
-        
+        if(updater != nullptr)
+        {
+            this->a = *updater;
+            std::cout << "U's a updated value: " << this->a << std::endl;
+            while( std::abs(this->b - this->a) > 0.001f )
+            {
+                this->b += 1.0f;
+            }
+            std::cout << "U's b updated value: " << this->b << std::endl;
+            return this->b * this->a;
+        }
+        std::cout << "nullptr, please fix";
+        return -1;
     }
 };
 
-struct <#structname2#>
+
+struct ModifyPointers
 {
-    static <#returntype#> <#staticFunctionA#>(U* that, <#type name#>* <#updatedValue#> )        //10
+    static float updateMultiply(U* that, float* updater )        //10
     {
-        std::cout << "U's <#name1#> value: " << that-><#name1#> << std::endl;
-        that-><#name1#> = <#updatedValue#>;
-        std::cout << "U's <#name1#> updated value: " << that-><#name1#> << std::endl;
-        while( std::abs(that-><#name2#> - that-><#name1#>) > 0.001f )
+        if(that != nullptr && updater != nullptr)
         {
-            /*
-             write something that makes the distance between that-><#name2#> and that-><#name1#> get smaller
-             */
-            that-><#name2#> += ;
+            std::cout << "U's a value: " << that->a << std::endl;
+            that->a = *updater;
+            std::cout << "U's a updated value: " << that->a << std::endl;
+            while( std::abs(that->b - that->a) > 0.001f )
+            {
+                that->b += 1.0f;
+            }
+            std::cout << "U's b updated value: " << that->b << std::endl;
+            return that->b * that->a;
         }
-        std::cout << "U's <#name2#> updated value: " << that-><#name2#> << std::endl;
-        return that-><#name2#> * that-><#name1#>;
+        std::cout << "nullptr, please fix";
+        return -1;
     }
 };
         
@@ -115,17 +135,25 @@ struct <#structname2#>
 
 int main()
 {
-    T <#name1#>( , );                                             //6
-    T <#name2#>( , );                                             //6
+    T a(1 , "a");                                             //6
+    T b(2 , "b");                                             //6
     
-    <#structName1#> f;                                            //7
-    auto* smaller = f.compare( , );                              //8
-    std::cout << "the smaller one is << " << smaller->name << std::endl; //9
+    C f;                                            //7
+    auto* smaller = f.compare(&a , &b);                              //8
+    if(smaller == nullptr)
+    {
+        std::cout << "Variables not initialized";
+    }
+    else
+    {
+         std::cout << "the smaller one is << " << smaller->name << std::endl; //9
+    }
     
-    U <#name3#>;
+    
+    U u;
     float updatedValue = 5.f;
-    std::cout << "[static func] <#name3#>'s multiplied values: " << <#structname2#>::<#staticFunctionA#>( , ) << std::endl;                  //11
+    std::cout << "[static func] u's multiplied values: " << ModifyPointers::updateMultiply(&u , &updatedValue) << std::endl;                  //11
     
-    U <#name4#>;
-    std::cout << "[member func] <#name4#>'s multiplied values: " << <#name4#>.<#memberFunction#>( &updatedValue ) << std::endl;
+    U u2;
+    std::cout << "[member func] U2s multiplied values: " << u2.updateMultiply( &updatedValue ) << std::endl;
 }
