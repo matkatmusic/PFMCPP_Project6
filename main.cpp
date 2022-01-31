@@ -56,46 +56,107 @@ Purpose:  This project will show you the difference between member functions and
 #include <string>
 struct T
 {
-    T(<#type name#> v, const char* <#variable name#>)   //1
-    //2
-    //3
+    float value;
+    const char* name;
+    T(const float v, const char* ptr) :  //1
+    value(0.0f),//2
+    name(nullptr)//3
+    {
+        value = v;
+        if(ptr != nullptr)
+        {
+            name = ptr;
+        }
+        else std::cout << "name is nullptr!\n";
+    }
 };
 
-struct <#structName1#>                                //4
-{
-    <#type name#> compare(<#type name#> a, <#type name#> b) //5
+struct Comparer                                //4
+{   
+    T* compare(T* a, T* b) //5
     {
-        if( a->value < b->value ) return a;
-        if( a->value > b->value ) return b;
+        if (a != nullptr && b != nullptr)
+        {
+            if( a->value < b->value ) return a;
+            if( a->value > b->value ) return b;
+            std::cout << "a == b!\n";
+            return nullptr;
+        }
+        std::cout << "a and/or b are nullptr!\n";
         return nullptr;
+        
     }
 };
 
 struct U
 {
-    float <#name1#> { 0 }, <#name2#> { 0 };
-    <#returnType#> <#memberFunction#>(<#type name#>* <#updatedValue#>)      //12
+    float x { 0 }, y { 0 };
+    float bringTogether(float* updatedValue)      //12
     {
-        
+        if( updatedValue != nullptr)
+        {
+            std::cout << "U's x value: " << this->x << std::endl;
+            this->x = (*updatedValue);
+            std::cout << "U's x updated value: " << this->x << std::endl;
+            std::cout << "bringing x and y together\n";
+            while( std::abs(this->y - this->x) > 0.001f )
+            {
+                if (this->y < this->x)
+                {
+                    this->y += .1f;
+                    this->x -= .1f;
+                }
+                else if(this->y > this->x)
+                {
+                    this->y -= .1f;
+                    this->x += .1f;
+                }
+                else std::cout << "x == y!\n";
+            }
+            std::cout << "U's y updated value: " << this->y << std::endl;
+            return this->y * this->x;  
+        }
+        else
+        {
+            std::cout << "updatedValue is nullptr!\n";
+            return 0.f;
+        }
     }
 };
 
-struct <#structname2#>
+struct myType
 {
-    static <#returntype#> <#staticFunctionA#>(U* that, <#type name#>* <#updatedValue#> )        //10
+    static float bringTogether(U* that, float* updatedValue )        //10
     {
-        std::cout << "U's <#name1#> value: " << that-><#name1#> << std::endl;
-        that-><#name1#> = <#updatedValue#>;
-        std::cout << "U's <#name1#> updated value: " << that-><#name1#> << std::endl;
-        while( std::abs(that-><#name2#> - that-><#name1#>) > 0.001f )
+        if( that != nullptr && updatedValue != nullptr)
         {
-            /*
-             write something that makes the distance between that-><#name2#> and that-><#name1#> get smaller
-             */
-            that-><#name2#> += ;
+            std::cout << "U's x value: " << that->x << std::endl;
+            that->x = (*updatedValue);
+            std::cout << "U's x updated value: " << that->x << std::endl;
+            std::cout << "bringing x and y together\n";
+            while( std::abs(that->y - that->x) > 0.001f )
+            {
+                if (that->y < that->x)
+                {
+                    that->y += .1f;
+                    that->x -= .1f;
+                }
+                else if(that->y > that->x)
+                {
+                    that->y -= .1f;
+                    that->x += .1f;
+                }
+                else std::cout << "x == y!\n";
+            }
+            std::cout << "U's y updated value: " << that->y << std::endl;
+            return that->y * that->x;
         }
-        std::cout << "U's <#name2#> updated value: " << that-><#name2#> << std::endl;
-        return that-><#name2#> * that-><#name1#>;
+        else
+        {
+            std::cout << "updatedValue is nullptr!\n";
+            return 0.f;
+        }
+
     }
 };
         
@@ -115,17 +176,23 @@ struct <#structname2#>
 
 int main()
 {
-    T <#name1#>( , );                                             //6
-    T <#name2#>( , );                                             //6
+    T* tOne = new T( 33.3f, "tOne");                                             //6
+    T* tTwo = new T( 55.0f, "tTwo" );                                        //6
     
-    <#structName1#> f;                                            //7
-    auto* smaller = f.compare( , );                              //8
-    std::cout << "the smaller one is << " << smaller->name << std::endl; //9
-    
-    U <#name3#>;
+    Comparer f;
+    if( tOne != nullptr && tTwo != nullptr)                                            //7
+    {
+        auto* smaller = f.compare(tOne, tTwo );                              //8
+        std::cout << "the smaller one is << " << (smaller != nullptr ? smaller->name : "smaller is nullptr!") << std::endl; //9
+    }
+    else std::cout << "tOne and/or tTwo are nullptr!\n";
+    U* myUOne = new U();
     float updatedValue = 5.f;
-    std::cout << "[static func] <#name3#>'s multiplied values: " << <#structname2#>::<#staticFunctionA#>( , ) << std::endl;                  //11
-    
-    U <#name4#>;
-    std::cout << "[member func] <#name4#>'s multiplied values: " << <#name4#>.<#memberFunction#>( &updatedValue ) << std::endl;
+    if( myUOne != nullptr)
+    {
+        std::cout << "[static func] myUOne's multiplied values: " << myType::bringTogether( myUOne, &updatedValue) << std::endl;                  //11
+    }
+    else std::cout << "myOne is nullptr!\n";
+    U myUTwo;
+    std::cout << "[member func] myUTwo's multiplied values: " << myUTwo.bringTogether( &updatedValue ) << std::endl;
 }
