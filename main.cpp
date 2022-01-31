@@ -70,8 +70,14 @@ struct Comparer                                //4
     {
         if (a != nullptr && b != nullptr)
         {
-            if( a->value < b->value ) return a;
-            if( a->value > b->value ) return b;
+            if( a->value < b->value )
+            {
+                return a;
+            }
+            if( a->value > b->value )
+            {
+                return b;
+            }
         }
 
         return nullptr;
@@ -101,7 +107,10 @@ struct U
                     this->y -= .1f;
                     this->x += .1f;
                 }
-                else std::cout << "x == y!\n";
+                else
+                {
+                    std::cout << "x == y!\n";
+                }
             }
             std::cout << "U's y updated value: " << this->y << std::endl;
             return this->y * this->x;  
