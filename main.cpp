@@ -57,18 +57,11 @@ Purpose:  This project will show you the difference between member functions and
 struct T
 {
     float value;
-    const char* name;
+    std::string name;
     T(const float v, const char* ptr) :  //1
-    value(0.0f),//2
-    name(nullptr)//3
-    {
-        value = v;
-        if(ptr != nullptr)
-        {
-            name = ptr;
-        }
-        else std::cout << "name is nullptr!\n";
-    }
+    value(v),//2
+    name(ptr)//3
+    {}
 };
 
 struct Comparer                                //4
@@ -79,12 +72,9 @@ struct Comparer                                //4
         {
             if( a->value < b->value ) return a;
             if( a->value > b->value ) return b;
-            std::cout << "a == b!\n";
-            return nullptr;
         }
-        std::cout << "a and/or b are nullptr!\n";
+
         return nullptr;
-        
     }
 };
 
@@ -116,11 +106,8 @@ struct U
             std::cout << "U's y updated value: " << this->y << std::endl;
             return this->y * this->x;  
         }
-        else
-        {
-            std::cout << "updatedValue is nullptr!\n";
-            return 0.f;
-        }
+        std::cout << "updatedValue is nullptr!\n";
+        return 0.f;
     }
 };
 
@@ -146,17 +133,19 @@ struct myType
                     that->y -= .1f;
                     that->x += .1f;
                 }
-                else std::cout << "x == y!\n";
+                else
+                {
+                    std::cout << "x == y!\n";
+                }
+
             }
+
             std::cout << "U's y updated value: " << that->y << std::endl;
             return that->y * that->x;
         }
-        else
-        {
-            std::cout << "updatedValue is nullptr!\n";
-            return 0.f;
-        }
 
+        std::cout << "updatedValue is nullptr!\n";
+        return 0.f;
     }
 };
         
@@ -176,23 +165,18 @@ struct myType
 
 int main()
 {
-    T* tOne = new T( 33.3f, "tOne");                                             //6
-    T* tTwo = new T( 55.0f, "tTwo" );                                        //6
+    T tOne(33.3f, "tOne");                                             //6
+    T tTwo(55.0f, "tTwo" );                                        //6
     
-    Comparer f;
-    if( tOne != nullptr && tTwo != nullptr)                                            //7
-    {
-        auto* smaller = f.compare(tOne, tTwo );                              //8
-        std::cout << "the smaller one is << " << (smaller != nullptr ? smaller->name : "smaller is nullptr!") << std::endl; //9
-    }
-    else std::cout << "tOne and/or tTwo are nullptr!\n";
-    U* myUOne = new U();
+
+
+    Comparer f;                                          //7
+    auto* smaller = f.compare(&tOne, &tTwo);                              //8
+    std::cout << "the smaller one is << " << (smaller != nullptr ? smaller->name : "smaller is nullptr!") << std::endl; //9
+    
+    U myUOne;
     float updatedValue = 5.f;
-    if( myUOne != nullptr)
-    {
-        std::cout << "[static func] myUOne's multiplied values: " << myType::bringTogether( myUOne, &updatedValue) << std::endl;                  //11
-    }
-    else std::cout << "myOne is nullptr!\n";
+    std::cout << "[static func] myUOne's multiplied values: " << myType::bringTogether( &myUOne, &updatedValue) << std::endl;                  //11
     U myUTwo;
     std::cout << "[member func] myUTwo's multiplied values: " << myUTwo.bringTogether( &updatedValue ) << std::endl;
 }
