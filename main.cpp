@@ -181,8 +181,16 @@ int main()
 
     Comparer f;                                          //7
     auto* smaller = f.compare(&tOne, &tTwo);                              //8
-    std::cout << "the smaller one is << " << (smaller != nullptr ? smaller->name : "smaller is nullptr!") << std::endl; //9
-    
+    //std::cout << "the smaller one is << " << (smaller != nullptr ? smaller->name : "smaller is nullptr!") << std::endl; //9
+    if( smaller != nullptr )
+    {
+       std::cout << "the smaller one is " << smaller->name << std::endl; 
+    }
+    else
+    {
+        std::cout << "a or b are nullptr, OR a and b have the same value.\n";
+    }
+
     U myUOne;
     float updatedValue = 5.f;
     std::cout << "[static func] myUOne's multiplied values: " << myType::bringTogether( &myUOne, &updatedValue) << std::endl;                  //11
