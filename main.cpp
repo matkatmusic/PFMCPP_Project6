@@ -21,7 +21,7 @@ Create a branch named Part2
  Update this std::cout expression to specify why nullptr was returned.
  
  3) After you finish, click the [run] button.  Clear up any errors or warnings as best you can.
- 
+
  */
 
 
@@ -60,74 +60,64 @@ struct Comparer                                //4
 struct U
 {
     float x { 0 }, y { 0 };
-    float bringTogether(float* updatedValue)      //12
+    float bringTogether(float& updatedValue)      //12
     {
-        if( updatedValue != nullptr)
+    
+        std::cout << "U's x value: " << x << std::endl;
+        x = updatedValue;
+        std::cout << "U's x updated value: " << x << std::endl;
+        std::cout << "bringing x and y together\n";
+        while( std::abs(y - x) > 0.001f )
         {
-            std::cout << "U's x value: " << this->x << std::endl;
-            this->x = (*updatedValue);
-            std::cout << "U's x updated value: " << this->x << std::endl;
-            std::cout << "bringing x and y together\n";
-            while( std::abs(this->y - this->x) > 0.001f )
+            if (y < x)
             {
-                if (this->y < this->x)
-                {
-                    this->y += .1f;
-                    this->x -= .1f;
-                }
-                else if(this->y > this->x)
-                {
-                    this->y -= .1f;
-                    this->x += .1f;
-                }
-                else
-                {
-                    std::cout << "x == y!\n";
-                }
+                y += .1f;
+                x -= .1f;
             }
-            std::cout << "U's y updated value: " << this->y << std::endl;
-            return this->y * this->x;  
+            else if(y > x)
+            {
+                y -= .1f;
+                x += .1f;
+            }
+            else
+            {
+                std::cout << "x == y!\n";
+            }
         }
-        std::cout << "updatedValue is nullptr!\n";
-        return 0.f;
+        std::cout << "U's y updated value: " << y << std::endl;
+        return y * x; 
     }
 };
 
 struct myType
 {
-    static float bringTogether(U* that, float* updatedValue )        //10
+    static float bringTogether(U& that, float& updatedValue )        //10
     {
-        if( that != nullptr && updatedValue != nullptr)
+        std::cout << "U's x value: " << that.x << std::endl;
+        that.x = updatedValue;
+        std::cout << "U's x updated value: " << that.x << std::endl;
+        std::cout << "bringing x and y together\n";
+        while( std::abs(that.y - that.x) > 0.001f )
         {
-            std::cout << "U's x value: " << that->x << std::endl;
-            that->x = (*updatedValue);
-            std::cout << "U's x updated value: " << that->x << std::endl;
-            std::cout << "bringing x and y together\n";
-            while( std::abs(that->y - that->x) > 0.001f )
+            if (that.y < that.x)
             {
-                if (that->y < that->x)
-                {
-                    that->y += .1f;
-                    that->x -= .1f;
-                }
-                else if(that->y > that->x)
-                {
-                    that->y -= .1f;
-                    that->x += .1f;
-                }
-                else
-                {
-                    std::cout << "x == y!\n";
-                }
-
+                that.y += .1f;
+                that.x -= .1f;
+            }
+            else if(that.y > that.x)
+            {
+                that.y -= .1f;
+                that.x += .1f;
+            }
+            else
+            {
+                std::cout << "x == y!\n";
             }
 
-            std::cout << "U's y updated value: " << that->y << std::endl;
-            return that->y * that->x;
         }
 
-        std::cout << "updatedValue is nullptr!\n";
-        return 0.f;
+        std::cout << "U's y updated value: " << that.y << std::endl;
+        return that.y * that.x;
     }
 };
         
@@ -161,12 +151,12 @@ int main()
     }
     else
     {
-        std::cout << "a or b are nullptr, OR a and b have the same value.\n";
+        std::cout << "a and b have the same value.\n";
     }
 
     U myUOne;
     float updatedValue = 5.f;
-    std::cout << "[static func] myUOne's multiplied values: " << myType::bringTogether( &myUOne, &updatedValue) << std::endl;                  //11
+    std::cout << "[static func] myUOne's multiplied values: " << myType::bringTogether( myUOne, updatedValue) << std::endl;                  //11
     U myUTwo;
-    std::cout << "[member func] myUTwo's multiplied values: " << myUTwo.bringTogether( &updatedValue ) << std::endl;
+    std::cout << "[member func] myUTwo's multiplied values: " << myUTwo.bringTogether( updatedValue ) << std::endl;
 }
