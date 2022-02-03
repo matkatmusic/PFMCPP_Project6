@@ -56,14 +56,14 @@ Purpose:  This project will show you the difference between member functions and
 #include <string>
 struct T
 {
-    T(<#type name#> v, const char* <#variable name#>)   //1
-    //2
-    //3
+    T(int v, const char* n) : value(v), name(n) {}   //1
+    int value;//2
+    std::string name;//3
 };
 
-struct <#structName1#>                                //4
+struct F                                //4
 {
-    <#type name#> compare(<#type name#> a, <#type name#> b) //5
+    T* compare(T* a, T* b) //5
     {
         if( a->value < b->value ) return a;
         if( a->value > b->value ) return b;
@@ -73,29 +73,40 @@ struct <#structName1#>                                //4
 
 struct U
 {
-    float <#name1#> { 0 }, <#name2#> { 0 };
-    <#returnType#> <#memberFunction#>(<#type name#>* <#updatedValue#>)      //12
+    float a { 0 }, b { 0 };
+    float update(float* v)      //12
     {
-        
-    }
-};
-
-struct <#structname2#>
-{
-    static <#returntype#> <#staticFunctionA#>(U* that, <#type name#>* <#updatedValue#> )        //10
-    {
-        std::cout << "U's <#name1#> value: " << that-><#name1#> << std::endl;
-        that-><#name1#> = <#updatedValue#>;
-        std::cout << "U's <#name1#> updated value: " << that-><#name1#> << std::endl;
-        while( std::abs(that-><#name2#> - that-><#name1#>) > 0.001f )
+        std::cout << "U's a value: " << a << std::endl;
+        a = *v;
+        std::cout << "U's a updated value: " << a<< std::endl;
+        while( std::abs(b - a) > 0.001f )
         {
             /*
              write something that makes the distance between that-><#name2#> and that-><#name1#> get smaller
              */
-            that-><#name2#> += ;
+            b += 2.3f;
         }
-        std::cout << "U's <#name2#> updated value: " << that-><#name2#> << std::endl;
-        return that-><#name2#> * that-><#name1#>;
+        std::cout << "U's b updated value: " << b << std::endl;
+        return a * b;
+    }
+};
+
+struct S
+{
+    static float update(U* that, float* v)        //10
+    {
+        std::cout << "U's a value: " << that->a << std::endl;
+        that->a = *v;
+        std::cout << "U's a updated value: " << that->a<< std::endl;
+        while( std::abs(that->b - that->a) > 0.001f )
+        {
+            /*
+             write something that makes the distance between that-><#name2#> and that-><#name1#> get smaller
+             */
+            that->b += 2.3f;
+        }
+        std::cout << "U's b updated value: " << that->b << std::endl;
+        return that->a * that->b;
     }
 };
         
@@ -115,17 +126,20 @@ struct <#structname2#>
 
 int main()
 {
-    T <#name1#>( , );                                             //6
-    T <#name2#>( , );                                             //6
+    T A( 32, "Ernie" );                                             //6
+    T B( 35, "Bert" );                                             //6
     
-    <#structName1#> f;                                            //7
-    auto* smaller = f.compare( , );                              //8
-    std::cout << "the smaller one is << " << smaller->name << std::endl; //9
+    F f;                                            //7
+    auto* smaller = f.compare( &A, &B );                              //8
+    if(smaller != nullptr)
+    {
+        std::cout << "the smaller one is << " << smaller->name << std::endl; //9
+    }
     
-    U <#name3#>;
+    U C;
     float updatedValue = 5.f;
-    std::cout << "[static func] <#name3#>'s multiplied values: " << <#structname2#>::<#staticFunctionA#>( , ) << std::endl;                  //11
+    std::cout << "[static func] C's multiplied values: " << S::update(&C, &updatedValue ) << std::endl;                  //11
     
-    U <#name4#>;
-    std::cout << "[member func] <#name4#>'s multiplied values: " << <#name4#>.<#memberFunction#>( &updatedValue ) << std::endl;
+    U D;
+    std::cout << "[member func] D's multiplied values: " << D.update( &updatedValue ) << std::endl;
 }
