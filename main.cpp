@@ -65,8 +65,11 @@ struct F                                //4
 {
     T* compare(T* a, T* b) //5
     {
-        if( a->value < b->value ) return a;
-        if( a->value > b->value ) return b;
+        if(a != nullptr && b != nullptr)
+        {
+            if( a->value < b->value ) return a;
+            if( a->value > b->value ) return b;
+        }
         return nullptr;
     }
 };
@@ -77,7 +80,14 @@ struct U
     float update(float* v)      //12
     {
         std::cout << "U's a value: " << a << std::endl;
-        a = *v;
+        if( v != nullptr)
+        {
+            a = *v;
+        }
+        else 
+        {
+            std::cout << "error: v = nullptr" << std::endl;
+        }
         std::cout << "U's a updated value: " << a<< std::endl;
         while( std::abs(b - a) > 0.001f )
         {
@@ -95,6 +105,11 @@ struct S
 {
     static float update(U* that, float* v)        //10
     {
+        if (that == nullptr || v == nullptr)
+        {
+            std::cout << "Error: nullptr passed to update function" << std::endl;
+            return 0.f;
+        }
         std::cout << "U's a value: " << that->a << std::endl;
         that->a = *v;
         std::cout << "U's a updated value: " << that->a<< std::endl;
@@ -126,20 +141,31 @@ struct S
 
 int main()
 {
-    T A( 32, "Ernie" );                                             //6
-    T B( 35, "Bert" );                                             //6
+    T a( 32, "Ernie" );                                             //6
+    T b( 35, "Bert" );                                             //6
     
     F f;                                            //7
-    auto* smaller = f.compare( &A, &B );                              //8
+    auto* smaller = f.compare( &a, &b );                              //8
     if(smaller != nullptr)
     {
-        std::cout << "the smaller one is << " << smaller->name << std::endl; //9
+        std::cout << "the smaller one is: " << smaller->name << std::endl; //9
+    }
+    else
+    {
+        if (a.value == b.value)
+        {
+            std::cout << "the values of " << a.name << " and " << b.name << " are equal" << std::endl;
+        }
+        else
+        {
+            std::cout << "Error, an invalid pointer was returned from the smaller function likely because an invalid pointer was supplied to it" << std::endl;
+        }
     }
     
-    U C;
+    U c;
     float updatedValue = 5.f;
-    std::cout << "[static func] C's multiplied values: " << S::update(&C, &updatedValue ) << std::endl;                  //11
+    std::cout << "[static func] c's multiplied values: " << S::update(&c, &updatedValue ) << std::endl;                  //11
     
-    U D;
-    std::cout << "[member func] D's multiplied values: " << D.update( &updatedValue ) << std::endl;
+    U d;
+    std::cout << "[member func] D's multiplied values: " << d.update( &updatedValue ) << std::endl;
 }
