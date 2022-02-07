@@ -80,14 +80,12 @@ struct U
     float update(float* v)      //12
     {
         std::cout << "U's a value: " << a << std::endl;
-        if( v != nullptr)
-        {
-            a = *v;
-        }
-        else 
+        if( v == nullptr) 
         {
             std::cout << "error: v = nullptr" << std::endl;
+            return 0.f;
         }
+        a = *v;
         std::cout << "U's a updated value: " << a<< std::endl;
         while( std::abs(b - a) > 0.001f )
         {
