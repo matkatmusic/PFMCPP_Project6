@@ -92,7 +92,7 @@ struct U
             /*
              write something that makes the distance between that-><#name2#> and that-><#name1#> get smaller
              */
-            b += 2.3f;
+            b += .01f;
         }
         std::cout << "U's b updated value: " << b << std::endl;
         return a * b;
@@ -116,7 +116,7 @@ struct S
             /*
              write something that makes the distance between that-><#name2#> and that-><#name1#> get smaller
              */
-            that->b += 2.3f;
+            that->b += .01f;
         }
         std::cout << "U's b updated value: " << that->b << std::endl;
         return that->a * that->b;
