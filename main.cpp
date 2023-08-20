@@ -4,13 +4,16 @@
 
 Create a branch named Part1
 
-Purpose:  This project will show you the difference between member functions and static class functions, as well as the difference between pointers and references and the code semantics that accompany pointers and references.
+Purpose:  This project will show you the difference between member functions and static class functions, 
+as well as the difference between pointers and references and the code semantics that accompany pointers and references.
 
  Pointers
 
- Please look at the screenshot in the files to see what happens if you paste this assignment into an existing cpp file in an xcode project
+ Please look at the screenshot in the files to see what happens if you paste this assignment into an existing cpp file 
+ in an xcode project
  
- Task: replace all of the <#place holder#> placeholders with proper names and types that will make this program compile and run.
+ Task: replace all of the <#place holder#> placeholders with proper names and types that will make this program compile
+ and run.
  
  press the Compile, link and run... button and work your way through all of the error messages.
  
@@ -58,46 +61,78 @@ Purpose:  This project will show you the difference between member functions and
 #include <string>
 struct T
 {
-    T(<#type name#> v, const char* <#variable name#>)   //1
-    //2
-    //3
+    T(int v, const char* w )  //1
+    {
+        value = v;
+        str = w;
+    }
+
+    int value;    //2
+    std::string str;//3
+     
 };
 
-struct <#structName1#>                                //4
+struct Comparison                            //4
 {
-    <#type name#> compare(<#type name#> a, <#type name#> b) //5
+    T* compare(T* a, T* b) //5
     {
-        if( a->value < b->value ) return a;
-        if( a->value > b->value ) return b;
+        if (a != nullptr && b !=nullptr)
+        {
+            if( a->value < b->value ) return a;
+            if( a->value > b->value ) return b;
+        }
         return nullptr;
     }
 };
 
 struct U
 {
-    float <#name1#> { 0 }, <#name2#> { 0 };
-    <#returnType#> <#memberFunction#>(<#type name#>* <#updatedValue#>)      //12
+    float x1 { 0 }, x2 { 0 };
+    float multiplied( float* newVal )        //10
     {
-        
-    }
-};
-
-struct <#structname2#>
-{
-    static <#returntype#> <#staticFunctionA#>(U* that, <#type name#>* <#updatedValue#> )        //10
-    {
-        std::cout << "U's <#name1#> value: " << that-><#name1#> << std::endl;
-        that-><#name1#> = <#updatedValue#>;
-        std::cout << "U's <#name1#> updated value: " << that-><#name1#> << std::endl;
-        while( std::abs(that-><#name2#> - that-><#name1#>) > 0.001f )
+        if (newVal != nullptr)
+        {
+            std::cout << "U's x1 value: " << this-> x1 << std::endl;
+            this-> x1 = *newVal;
+            std::cout << "U's x1 updated value: " << this->x1 << std::endl;
+        }
+        while( std::abs(this-> x2 - this-> x1) > 0.001f )
         {
             /*
              write something that makes the distance between that-><#name2#> and that-><#name1#> get smaller
              */
-            that-><#name2#> += ;
+            
+            this-> x2 += 0.01f ;
         }
-        std::cout << "U's <#name2#> updated value: " << that-><#name2#> << std::endl;
-        return that-><#name2#> * that-><#name1#>;
+        
+        std::cout << "U's x2 updated value: " << this-> x2 << std::endl;
+        
+        return this-> x2 * this-> x1;
+    }
+};
+
+struct Calc
+{
+    static float multiplied(U* that, float* newVal )        //10
+    {
+        if (newVal != nullptr)
+        {
+            std::cout << "U's x1 value: " << that-> x1 << std::endl;
+            that-> x1 = *newVal;
+            std::cout << "U's x1 updated value: " << that->x1 << std::endl;
+        }
+        while( std::abs(that-> x2 - that-> x1) > 0.001f )
+        {
+            /*
+             write something that makes the distance between that-><#name2#> and that-><#name1#> get smaller
+             */
+            
+            that-> x2 += 0.01f ;
+        }
+        
+        std::cout << "U's x2 updated value: " << that-> x2 << std::endl;
+        
+        return that-> x2 * that-> x1;
     }
 };
         
@@ -117,17 +152,25 @@ struct <#structname2#>
 
 int main()
 {
-    T <#name1#>( , );                                             //6
-    T <#name2#>( , );                                             //6
+    T t1( 9, "B" );                                             //6
+    T t2( 10, "C");                                             //6
     
-    <#structName1#> f;                                            //7
-    auto* smaller = f.compare( , );                              //8
-    std::cout << "the smaller one is << " << smaller->name << std::endl; //9
+    Comparison f;                                            //7
+    auto* smaller = f.compare(&t1 , &t2);                              //8
     
-    U <#name3#>;
+    if (smaller != nullptr)
+    {
+        std::cout << "the smaller one is << " << smaller-> str  << std::endl; //9
+    }
+    else
+    {
+        std::cout << "Error Found null Pointer";
+    }
+    
+    U num1;
     float updatedValue = 5.f;
-    std::cout << "[static func] <#name3#>'s multiplied values: " << <#structname2#>::<#staticFunctionA#>( , ) << std::endl;                  //11
+    std::cout << "[static func] num1's multiplied values: " << Calc::multiplied( &num1 , &updatedValue ) << std::endl;                  //11
     
-    U <#name4#>;
-    std::cout << "[member func] <#name4#>'s multiplied values: " << <#name4#>.<#memberFunction#>( &updatedValue ) << std::endl;
+    U num2;
+    std::cout << "[member func] <#name4#>'s multiplied values: " << num2.multiplied( &updatedValue ) << std::endl;
 }
